@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/ogier/pflag"
+	. "github.com/mohae/pflag"
 )
 
 var (
@@ -25,7 +25,10 @@ var (
 	test_string   = String("test_string", "0", "string value")
 	test_float64  = Float64("test_float64", 0, "float64 value")
 	test_duration = Duration("test_duration", 0, "time.Duration value")
+	test_time     = Time("test_time", baseTime, "time.Time value")
 )
+
+var baseTime = time.Date(2009, time.November, 15, 23, 0, 0, 0, time.UTC)
 
 func boolString(s string) string {
 	if s == "0" {
@@ -36,6 +39,7 @@ func boolString(s string) string {
 
 func TestEverything(t *testing.T) {
 	m := make(map[string]*Flag)
+	desired_time := "2009-11-15 23:00:00 +0000 UTC"
 	desired := "0"
 	visitor := func(f *Flag) {
 		if len(f.Name) > 5 && f.Name[0:5] == "test_" {
@@ -48,6 +52,8 @@ func TestEverything(t *testing.T) {
 				ok = true
 			case f.Name == "test_duration" && f.Value.String() == desired+"s":
 				ok = true
+			case f.Name == "test_time" && f.Value.String() == desired_time:
+				ok = true
 			}
 			if !ok {
 				t.Error("Visit: bad value", f.Value.String(), "for", f.Name)
@@ -55,7 +61,7 @@ func TestEverything(t *testing.T) {
 		}
 	}
 	VisitAll(visitor)
-	if len(m) != 8 {
+	if len(m) != 9 {
 		t.Error("VisitAll misses some flags")
 		for k, v := range m {
 			t.Log(k, *v)
@@ -78,7 +84,9 @@ func TestEverything(t *testing.T) {
 	Set("test_string", "1")
 	Set("test_float64", "1")
 	Set("test_duration", "1s")
+	Set("test_time", "2009-11-15 23:00:00 +0000 UTC")
 	desired = "1"
+
 	Visit(visitor)
 	if len(m) != 8 {
 		t.Error("Visit fails after set")
@@ -119,6 +127,7 @@ func testParse(f *FlagSet, t *testing.T) {
 	stringFlag := f.String("string", "0", "string value")
 	float64Flag := f.Float64("float64", 0, "float64 value")
 	durationFlag := f.Duration("duration", 5*time.Second, "time.Duration value")
+	timeFlag := f.Time("time", baseTime, "time.Time value")
 	extra := "one-extra-argument"
 	args := []string{
 		"--bool",
@@ -131,6 +140,7 @@ func testParse(f *FlagSet, t *testing.T) {
 		"--string=hello",
 		"--float64=2718e28",
 		"--duration=2m",
+		"--time=2009-11-10",
 		extra,
 	}
 	if err := f.Parse(args); err != nil {
@@ -168,6 +178,9 @@ func testParse(f *FlagSet, t *testing.T) {
 	}
 	if *durationFlag != 2*time.Minute {
 		t.Error("duration flag should be 2m, is ", *durationFlag)
+	}
+	if *timeFlag != time.Date(2009, time.November, 10, 00, 0, 0, 0, time.UTC) {
+		t.Error("time flag should be 2009-11-10 00:00:00 +0000 UTC, is ", *timeFlag)
 	}
 	if len(f.Args()) != 1 {
 		t.Error("expected one argument, got", len(f.Args()))
