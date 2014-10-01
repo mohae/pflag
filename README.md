@@ -4,8 +4,8 @@
 
 Pull requests will not be submitted until the new funtionality has been:
 
-* tested
-* validated through usage
+- tested
+- validated through usage
 
 Aside from time.Time. Support for at least one additional flag type will be added in the future.
 
