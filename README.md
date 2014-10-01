@@ -1,15 +1,15 @@
 ## Description
 
-_This is a fork of [ogier's pflag](https://github.com/ogier/pflag) package. My fork add support for time.Time flags. This fork will persist as long as there are differences between my version and ogier's. 
+_This is a fork of [ogier's pflag](https://github.com/ogier/pflag) package. My fork add support for time.Time flags. This fork will persist as long as there are differences between my version and ogier's._
 
-Pull requests will not be submitted until the new funtionality has been:
+_Pull requests will not be submitted until the new funtionality has been:_
 
 - tested
 - validated through usage
 
-Aside from time.Time. Support for at least one additional flag type will be added in the future.
+_Aside from time.Time. Support for at least one additional flag type will be added in the future._
 
-All `ogier/pflag` references in the code are now `mohae/pflag`._
+_All `ogier/pflag` references in the code are now `mohae/pflag`._
 
 
 pflag is a drop-in replacement for Go's flag package, implementing
