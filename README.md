@@ -1,4 +1,4 @@
-_This is a fork of [ogier's pflag](https://github.com/ogier/pflag) package. My fork add support for time.Time flags._
+_This is a fork of [ogier's pflag](https://github.com/ogier/pflag) package. My fork adds support for time.Time flags._
 
 _Aside from time.Time. Support for at least one additional flag type will be added in the future._
 

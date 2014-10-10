@@ -2,10 +2,11 @@ package pflag
 
 import "time"
 
-
 const modelTime string = "Mon Jan 2 15:04:05 MST 2006"
+
 // -- time.Time Value
 type timeValue time.Time
+
 var timeFormat string = "2006-01-02" // YYYY MM DD
 func SetTimeFormat(s string) error {
 	_, err := time.Parse(modelTime, s)
@@ -28,7 +29,7 @@ func (d *timeValue) Set(s string) error {
 	return err
 }
 
-func (d *timeValue) String() string { 
+func (d *timeValue) String() string {
 	ret := (*time.Time)(d).String()
 	return ret
 }
